@@ -22,10 +22,6 @@ class DASH implements CryptoPlugin {
     return `dash:${address}`
   }
 
-  public depositUrl (address: string, amount: string, _opts?: any): string {
-    return `dash:${address}?amount=${amount}`
-  }
-
   validate (network: string, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     if (base58Validator(network, address, this.base58Opts)) return true

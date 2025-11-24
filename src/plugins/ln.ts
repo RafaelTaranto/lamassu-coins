@@ -43,10 +43,6 @@ class LN implements CryptoPlugin {
     return address
   }
 
-  public depositUrl (address: string, amount: string, _opts?: any): string {
-    return address
-  }
-
   validate (network: string, address: string, fromMachine?: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     if (bech32Validator(network, address, this.invoiceOptions, this.lengthLimit)) {

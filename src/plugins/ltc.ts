@@ -26,10 +26,6 @@ class LTC implements CryptoPlugin {
     return address
   }
 
-  public depositUrl(addr: string, amount: string, opts?: any): string {
-    return `litecoin:${addr}?amount=${amount}`
-  }
-
   public buildUrl(addr: string): string {
     return `litecoin:${addr}`
   }

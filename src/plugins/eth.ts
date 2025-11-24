@@ -10,10 +10,6 @@ const sha3str = (value: string): string =>
 
 
 class ETH implements CryptoPlugin {
-  public depositUrl (address: string, amount: string): string {
-    return `ethereum:${address}?amount=${amount}`
-  }
-
   public parseUrl (network: string, uri: string, opts?: any): string | never {
     const cryptoCode = (opts && opts.cryptoCode) || 'ETH'
     try {

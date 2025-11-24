@@ -75,12 +75,6 @@ function coinPlugin(cryptoCode: string) {
   }
 }
 
-export function depositUrl(cryptoCode: string, address: string, amount: string) {
-  if (!address) return null
-  const plugin = coinPlugin(cryptoCode)
-  return plugin.depositUrl(address, amount)
-}
-
 /* TODO: make network more restrictive */
 export function parseUrl(cryptoCode: string, network: string, url: string, fromMachine: boolean = true) {
   const plugin = coinPlugin(cryptoCode)

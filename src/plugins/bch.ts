@@ -1,5 +1,4 @@
 import cashaddr from 'cashaddrjs'
-import _ from 'lodash/fp'
 import { PrivateKey } from 'bitcore-lib-cash'
 
 const NETWORK_PREFIX: { [key: string]: string } = { main: 'bitcoincash:', test: 'bchtest:' }
@@ -21,10 +20,6 @@ class BCH implements CryptoPlugin {
 
   public buildUrl (address: string): string {
     return `${address}`
-  }
-
-  public depositUrl (address: string, amount: string): string {
-    return `${address}?amount=${amount}`
   }
 
   validate (address: string): boolean | never {

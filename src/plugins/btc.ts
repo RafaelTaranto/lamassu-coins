@@ -29,18 +29,6 @@ class BTC implements CryptoPlugin {
     return `bitcoin:${address}`
   }
 
-  public depositUrl (address: string, amount: string, _opts?: any): string {
-    const parts = address.split(':')
-
-    // Strike LN payment
-    if (parts[0] === 'strike') return parts[3]
-
-    // Regular LN payment
-    if (parts.length === 2) return parts[2]
-
-    return `bitcoin:${address}?amount=${amount}`
-  }
-
   public formatAddress (address: string): string {
     const parts = address.split(':')
     const isLightning = parts.length >= 2

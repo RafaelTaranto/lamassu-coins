@@ -35,10 +35,6 @@ class ZEC implements CryptoPlugin {
     return address
   }
 
-  public depositUrl (address: string, amount: string, _opts?: any): string {
-    return `zcash:${address}?amount=${amount}`
-  }
-
   public buildUrl (address: string): string {
     return `zcash:${address}`
   }

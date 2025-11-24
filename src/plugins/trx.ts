@@ -10,10 +10,6 @@ class TRX implements CryptoPlugin {
     testNetPrefix: [ [0x41] ]
   }
 
-  public depositUrl(addr: string, amount: string, opts?: any): string {
-    return `tron:${addr}?amount=${amount}`
-  }
-
   public parseUrl(network: string, uri: string, opts?: any, fromMachine?: any): string | never {
     try {
       const rec = url.parse(uri)
