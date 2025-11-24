@@ -49,7 +49,8 @@ export function isTrc20Token(cryptoCode: string) {
 }
 
 export function buildUrl(cryptoCode: string, address: string) {
-  return coinPlugin(cryptoCode).buildUrl(address)
+  const coinConfig = getCryptoCurrency(cryptoCode)
+    return coinConfig.urlPrefix ? `${coinConfig.urlPrefix}:${address}` : address
 }
 
 /* TODO: make cryptoRec more restrictive */
@@ -82,27 +83,10 @@ export function parseUrl(cryptoCode: string, network: string, url: string, fromM
   return formatAddressCasing(cryptoCode, address)
 }
 
-export function formatAddress(cryptoCode: string, address: string) {
-  if (!address) return null
-
-  const plugin = coinPlugin(cryptoCode)
-  if (!plugin.formatAddress) return address
-  return plugin.formatAddress(address)
-}
-
 export function formatAddressCasing(cryptoCode: string, address: string) {
   const plugin = coinPlugin(cryptoCode)
   if (!plugin.bech32Opts) return address
   return isBech32Address(address, plugin.bech32Opts, plugin.lengthLimit) ? address.toLowerCase() : address
-}
-
-export function createWallet(cryptoCode: string) {
-  const plugin = coinPlugin(cryptoCode)
-  if (!plugin.createWallet) {
-    throw new Error(`${cryptoCode} paper wallet printing is not supported`)
-  }
-
-  return plugin.createWallet()
 }
 
 export function getAddressType(cryptoCode: string, address: string, network: string) {

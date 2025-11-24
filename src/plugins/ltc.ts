@@ -26,37 +26,10 @@ class LTC implements CryptoPlugin {
     return address
   }
 
-  public buildUrl(addr: string): string {
-    return `litecoin:${addr}`
-  }
-
   public validate (network: string|null|undefined, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     return base58Validator(network, address, this.base58Opts)
       || bech32Validator(network, address, this.bech32Opts)
-  }
-
-  public createWallet () {
-    // Network definition based on:
-    // https://github.com/bitcoinjs/bitcoinjs-lib/blob/master/test/integration/addresses.spec.ts
-    const LITECOIN = {
-      messagePrefix: '\x19Litecoin Signed Message:\n',
-      bech32: 'ltc',
-      bip32: {
-        public: 0x019da462,
-        private: 0x019d9cfe,
-      },
-      pubKeyHash: 0x30,
-      scriptHash: 0x32,
-      wif: 0xb0,
-    }
-    const keyPair = bitcoin.ECPair.makeRandom({ network: LITECOIN })
-    const segwitAddr = bitcoin.payments.p2wpkh({ pubkey: keyPair.publicKey, network: LITECOIN })
-
-    return {
-      publicAddress: segwitAddr.address,
-      privateKey: keyPair.toWIF()
-    }
   }
 
   public getAddressType(url: string, network: string): string | null {

@@ -22,10 +22,6 @@ class TRX implements CryptoPlugin {
     }
   }
 
-  public buildUrl(addr: string): string {
-    return `tron:${addr}`
-  }
-
   public validate (network: string|null|undefined, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     return base58Validator(network, address, this.base58Opts)

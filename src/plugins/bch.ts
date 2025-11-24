@@ -1,5 +1,4 @@
 import cashaddr from 'cashaddrjs'
-import { PrivateKey } from 'bitcore-lib-cash'
 
 const NETWORK_PREFIX: { [key: string]: string } = { main: 'bitcoincash:', test: 'bchtest:' }
 
@@ -18,10 +17,6 @@ class BCH implements CryptoPlugin {
     return address
   }
 
-  public buildUrl (address: string): string {
-    return `${address}`
-  }
-
   validate (address: string): boolean | never {
     try {
       if (!address) throw new Error('No address supplied.')
@@ -33,24 +28,6 @@ class BCH implements CryptoPlugin {
       console.log(err)
       console.log('Invalid bitcoin cash address: %s', address)
       return false
-    }
-  }
-
-  public formatAddress (address: string): string {
-    const [, secondPart] = address.split(':')
-
-    if (secondPart) return secondPart
-    return address
-  }
-
-
-  public createWallet() {
-    const privateKey = new PrivateKey()
-    const address = privateKey.toAddress().toString()
-
-    return {
-      publicAddress: address,
-      privateKey: privateKey.toWIF()
     }
   }
 

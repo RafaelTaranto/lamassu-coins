@@ -35,10 +35,6 @@ class ZEC implements CryptoPlugin {
     return address
   }
 
-  public buildUrl (address: string): string {
-    return `zcash:${address}`
-  }
-
   validate (network: string|null|undefined, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     return base58Validator(network, address, this.base58Opts)

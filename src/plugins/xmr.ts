@@ -22,10 +22,6 @@ class XMR implements CryptoPlugin {
     return address
   }
 
-  public buildUrl(addr: string): string {
-    return `monero:${addr}`
-  }
-
   validate (network: string|null|undefined, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     return xmrValidator(network, address, this.opts)

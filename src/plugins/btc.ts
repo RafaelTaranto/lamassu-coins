@@ -25,33 +25,11 @@ class BTC implements CryptoPlugin {
     return address
   }
 
-  public buildUrl (address: string): string {
-    return `bitcoin:${address}`
-  }
-
-  public formatAddress (address: string): string {
-    const parts = address.split(':')
-    const isLightning = parts.length >= 2
-
-    if (isLightning) return 'Lightning Network'
-    return address
-  }
-
   public validate (network: string|null|undefined, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     return bech32mValidator(network, address, this.bech32Opts)
       || base58Validator(network, address, this.base58Opts)
       || bech32Validator(network, address, this.bech32Opts)
-  }
-
-  public createWallet () {
-    const keyPair = bitcoin.ECPair.makeRandom()
-    const segwitAddr = bitcoin.payments.p2wpkh({ pubkey: keyPair.publicKey })
-
-    return {
-      publicAddress: segwitAddr.address,
-      privateKey: keyPair.toWIF()
-    }
   }
 
   public getAddressType (url: string, network: string): string | null {

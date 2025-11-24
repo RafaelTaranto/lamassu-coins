@@ -1,5 +1,4 @@
 import _ from 'lodash/fp'
-import bitcoin from 'bitcoinjs-lib'
 import bolt11 from '@lamassu/bolt11'
 
 import { bech32Validator } from './validators'
@@ -39,10 +38,6 @@ class LN implements CryptoPlugin {
     return address
   }
 
-  public buildUrl (address: string): string {
-    return address
-  }
-
   validate (network: string, address: string, fromMachine?: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     if (bech32Validator(network, address, this.invoiceOptions, this.lengthLimit)) {
@@ -59,10 +54,6 @@ class LN implements CryptoPlugin {
 
     if (bech32Validator(network, address, this.lnurlOptions, this.lengthLimit)) return true
     return false
-  }
-
-  public formatAddress (address: string): string {
-    return address
   }
 
   public getAddressType (url: string, network: string): string | null {

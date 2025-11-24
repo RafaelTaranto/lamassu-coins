@@ -41,6 +41,7 @@ const CRYPTOS = [
     unitScale: 8,
     zeroConf: true,
     type: 'coin',
+    urlPrefix: null,
     urlAmount: 'amount',
   },
   {
@@ -184,6 +185,7 @@ const CRYPTOS = [
     unitScale: 8,
     zeroConf: true,
     hideFromInstall: true,
+    urlPrefix: null,
     type: 'coin',
   },
 ]

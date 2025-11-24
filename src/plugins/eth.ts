@@ -46,10 +46,6 @@ class ETH implements CryptoPlugin {
     }
   }
 
-  public buildUrl (address: string): string {
-    return `ethereum:${address}`
-  }
-
   isValidAddress (address: string): boolean {
     return (address.toUpperCase() === address || address.toLowerCase() === address)
       ? address.indexOf('0x') === 0

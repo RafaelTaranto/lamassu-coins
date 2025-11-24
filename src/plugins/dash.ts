@@ -18,10 +18,6 @@ class DASH implements CryptoPlugin {
     return address
   }
 
-  public buildUrl (address: string): string {
-    return `dash:${address}`
-  }
-
   validate (network: string, address: string): boolean | never {
     if (!network) throw new Error('No network supplied.')
     if (base58Validator(network, address, this.base58Opts)) return true
