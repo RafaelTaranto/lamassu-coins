@@ -1,20 +1,9 @@
 import _ from 'lodash/fp'
 import path from 'path'
+import addressValidator from '@lamassu/multicoin-address-validator'
 
 import {CRYPTO_CURRENCIES} from './config/consts'
 import {getCryptoCurrency} from './lightUtils';
-import {isBech32Address} from './plugins/validators'
-import BTC from './plugins/btc'
-import ETH from './plugins/eth'
-import ZEC from './plugins/zec'
-import LTC from './plugins/ltc'
-import DASH from './plugins/dash'
-import BCH from './plugins/bch'
-import XMR from './plugins/xmr'
-import TRX from './plugins/trx'
-import LN from './plugins/ln'
-
-const PLUGINS: { [key: string]: any } = {BTC, ETH, ZEC, LTC, DASH, BCH, XMR, TRX, LN}
 
 export function cryptoCurrencies() {
   return CRYPTO_CURRENCIES
@@ -36,7 +25,7 @@ function trc20Tokens() {
   return _.filter((e: any) => e.type === 'trc-20', cryptoCurrencies())
 }
 
-export function erc20Tokens() {
+function erc20Tokens() {
   return _.filter((e: any) => e.type === 'erc-20', cryptoCurrencies())
 }
 
@@ -63,36 +52,20 @@ export function configPath(cryptoRec: any, blockchainDir: string) {
   return path.resolve(cryptoDir(cryptoRec, blockchainDir), cryptoRec.configFile)
 }
 
-function coinPlugin(cryptoCode: string) {
-  const coin = getCryptoCurrency(cryptoCode)
-  const type = coin.type ?? 'coin'
-  switch (type) {
-    case 'erc-20':
-      return PLUGINS['ETH']
-    case 'trc-20':
-      return PLUGINS['TRX']
-    default:
-      return PLUGINS[cryptoCode]
+export function isValidAddressInAnyChain(address: string) {
+  for (const coin of CRYPTO_CURRENCIES) {
+    console.log('DEBUG16: [%s] *%s*', coin.cryptoCode, address)
+    const validatorKey = 'validatorKey' in coin ? coin.validatorKey : coin.cryptoCode
+    if (validatorKey === 'disabled') continue
+    try {
+      const isValid = addressValidator.validate(address, validatorKey)
+      console.log('DEBUG16: [%s] *%s*', coin.cryptoCode, isValid ? 'valid' : 'invalid')
+      if (isValid) return true
+    } catch (err) {}
   }
+
+  return false
 }
 
-/* TODO: make network more restrictive */
-export function parseUrl(cryptoCode: string, network: string, url: string, fromMachine: boolean = true) {
-  const plugin = coinPlugin(cryptoCode)
-  const address = plugin.parseUrl(network, url, {cryptoCode}, fromMachine)
-  return formatAddressCasing(cryptoCode, address)
-}
-
-export function formatAddressCasing(cryptoCode: string, address: string) {
-  const plugin = coinPlugin(cryptoCode)
-  if (!plugin.bech32Opts) return address
-  return isBech32Address(address, plugin.bech32Opts, plugin.lengthLimit) ? address.toLowerCase() : address
-}
-
-export function getAddressType(cryptoCode: string, address: string, network: string) {
-  const plugin = coinPlugin(cryptoCode)
-  return plugin.getAddressType(address, network)
-}
-
-export {getEquivalentCode, toUnit, formatCryptoAddress, getCryptoCurrency} from './lightUtils';
+export { getEquivalentCode, toUnit, formatCryptoAddress, getCryptoCurrency } from './lightUtils';
 
