@@ -2,8 +2,7 @@
   "name": "@lamassu/coins",
   "version": "v2.0.0",
   "dependencies": {
-    "@lamassu/multicoin-address-validator": "^0.6.0",
-    "lodash": "^4.17.10"
+    "@lamassu/multicoin-address-validator": "^0.6.0"
   },
   "scripts": {
     "build": "tsc",
@@ -35,7 +34,6 @@
   "author": "Lamassu Industries",
   "license": "./LICENSE",
   "devDependencies": {
-    "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.2",
     "typescript": "^5.2.2"
   }

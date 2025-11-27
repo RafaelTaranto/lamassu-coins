@@ -1,4 +1,3 @@
-import _ from 'lodash/fp'
 import path from 'path'
 import addressValidator from '@lamassu/multicoin-address-validator'
 
@@ -10,23 +9,23 @@ export function cryptoCurrencies() {
 }
 
 export function getTrc20Token(cryptoCode: string) {
-  const token = _.find(['cryptoCode', cryptoCode], trc20Tokens())
+  const token = trc20Tokens().find(t => t.cryptoCode === cryptoCode)
   if (!token) throw new Error(`Unsupported token: ${cryptoCode}`)
   return token
 }
 
 export function getErc20Token(cryptoCode: string) {
-  const token = _.find(['cryptoCode', cryptoCode], erc20Tokens())
+  const token = erc20Tokens().find(t => t.cryptoCode === cryptoCode)
   if (!token) throw new Error(`Unsupported token: ${cryptoCode}`)
   return token
 }
 
 function trc20Tokens() {
-  return _.filter((e: any) => e.type === 'trc-20', cryptoCurrencies())
+  return cryptoCurrencies().filter((e: any) => e.type === 'trc-20')
 }
 
 function erc20Tokens() {
-  return _.filter((e: any) => e.type === 'erc-20', cryptoCurrencies())
+  return cryptoCurrencies().filter((e: any) => e.type === 'erc-20')
 }
 
 export function isErc20Token(cryptoCode: string) {
